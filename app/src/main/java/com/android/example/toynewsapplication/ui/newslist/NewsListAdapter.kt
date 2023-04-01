@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.example.toynewsapplication.data.domain.News
 import com.android.example.toynewsapplication.databinding.ListItemNewsBinding
+import com.bumptech.glide.Glide
 
 class NewsListAdapter(private val onClickListener: OnClickListener) : ListAdapter<News, NewsListViewHolder>(DiffCallback) {
 
@@ -41,7 +42,11 @@ class NewsListViewHolder(private val binding: ListItemNewsBinding): RecyclerView
             newsDescription.text = news.description
             newsImage.contentDescription = news.title
             newsDate.text = news.publishedAt
-
+            Glide.with(itemView)
+                .load(news.urlToImage)
+                .placeholder(android.R.drawable.stat_notify_sync)
+                .error(android.R.drawable.stat_notify_error)
+                .into(newsImage)
             root.setOnClickListener {
                 onClickListener.onClick(news)
             }
