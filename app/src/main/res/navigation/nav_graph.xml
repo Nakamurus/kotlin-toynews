@@ -13,7 +13,6 @@
             android:id="@+id/action_newsListFragment_to_newsDetailFragment"
             app:destination="@id/news_detail_fragment"
             app:popUpTo="@id/news_list_fragment"
-            app:popUpToInclusive="true"
             />
     </fragment>
 

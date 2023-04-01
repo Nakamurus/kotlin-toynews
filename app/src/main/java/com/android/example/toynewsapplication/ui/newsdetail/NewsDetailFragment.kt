@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.android.example.toynewsapplication.databinding.FragmentNewsDetailBinding
+import com.bumptech.glide.Glide
 
 
 class NewsDetailFragment: Fragment() {
@@ -31,6 +32,11 @@ class NewsDetailFragment: Fragment() {
                 newsTitle.text = it.title
                 newsDescription.text = it.content
                 newsDate.text = it.publishedAt
+                Glide.with(this@NewsDetailFragment)
+                    .load(it.urlToImage)
+                    .placeholder(android.R.drawable.stat_notify_sync)
+                    .error(android.R.drawable.stat_notify_error)
+                    .into(newsImage)
             }
         }
         return binding.root
