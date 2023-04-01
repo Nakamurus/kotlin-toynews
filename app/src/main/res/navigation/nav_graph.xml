@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/news_list_fragment">
+    <fragment
+        android:id="@+id/news_list_fragment"
+        android:name="com.android.example.toynewsapplication.ui.newslist.NewsListFragment"
+        android:label="NewsListFragment"
+        tools:layout="@layout/fragment_news_list">
+        <action
+            android:id="@+id/action_newsListFragment_to_newsDetailFragment"
+            app:destination="@id/news_detail_fragment"
+            app:popUpTo="@id/news_list_fragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/news_detail_fragment"
+        android:name="com.android.example.toynewsapplication.ui.newsdetail.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail">
+        <argument
+            android:name="news"
+            app:argType="com.android.example.toynewsapplication.data.domain.News" />
+    </fragment>
+</navigation>
