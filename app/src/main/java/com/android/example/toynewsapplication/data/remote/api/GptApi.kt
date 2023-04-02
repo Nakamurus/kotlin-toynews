@@ -2,8 +2,7 @@ package com.android.example.toynewsapplication.data.remote.api
 
 import com.android.example.toynewsapplication.data.remote.model.GptRequestBody
 import com.android.example.toynewsapplication.data.remote.model.GptResponseBody
-import retrofit2.Call
-import retrofit2.Retrofit
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -15,5 +14,5 @@ interface GptApiService {
     suspend fun generateContext(
         @Header("Authorization") apiKey: String,
         @Body requestBody: GptRequestBody
-    ): Call<GptResponseBody>
+    ): Response<GptResponseBody>
 }
