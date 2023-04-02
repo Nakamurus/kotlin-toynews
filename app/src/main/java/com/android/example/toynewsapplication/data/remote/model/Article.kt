@@ -28,7 +28,8 @@ fun List<Article>.asDomainModel(): List<News> {
             url = it.url,
             urlToImage = it.urlToImage ?: "",
             publishedAt = it.publishedAt,
-            content = it.content
+            content = it.content,
+            context = ""
         )
     }
 }
