@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiService {
     private const val BASE_URL_NEWS = "https://newsapi.org/v2/"
-//    private const val BASE_URL_GPT = ""
+    private const val BASE_URL_GPT = "https://api.openai.com/v1/chat/"
 
     private val client = OkHttpClient.Builder()
         .readTimeout(60, TimeUnit.SECONDS)
@@ -30,17 +30,17 @@ object ApiService {
         .client(client)
         .build()
 
-//    private val retrofitGpt = Retrofit.Builder()
-//        .baseUrl(BASE_URL_GPT)
-//        .addConverterFactory(MoshiConverterFactory.create(moshi))
-//        .client(client)
-//        .build()
+    private val retrofitGpt = Retrofit.Builder()
+        .baseUrl(BASE_URL_GPT)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .client(client)
+        .build()
 
     val newsApiService: NewsApiService by lazy {
         retrofitNews.create(NewsApiService::class.java)
     }
 
-//    val gptApiService: GptApiService by lazy {
-//        retrofitGpt.create(GptApiService::class.java)
-//    }
+    val gptApiService: GptApiService by lazy {
+        retrofitGpt.create(GptApiService::class.java)
+    }
 }
