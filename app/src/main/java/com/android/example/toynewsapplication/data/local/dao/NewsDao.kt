@@ -15,6 +15,9 @@ interface NewsDao {
     @Query("SELECT * FROM news WHERE id = :id")
     fun getNewsById(id: Int): LiveData<NewsEntity>
 
+    @Query("SELECT * FROM news WHERE title = :title")
+    fun getNewsByTitle(title: String): NewsEntity
+
     @Insert(onConflict=OnConflictStrategy.REPLACE)
     suspend fun insertAll(news: List<NewsEntity>)
 }
