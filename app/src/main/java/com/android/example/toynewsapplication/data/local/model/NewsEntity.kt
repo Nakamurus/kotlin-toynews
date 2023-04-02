@@ -26,7 +26,8 @@ fun List<NewsEntity>.asDomainModel(): List<News> {
             url = it.url,
             urlToImage = it.imageUrl,
             publishedAt = it.publishedAt,
-            content = it.content
+            content = it.content,
+            context = ""
         )
     }
 }
