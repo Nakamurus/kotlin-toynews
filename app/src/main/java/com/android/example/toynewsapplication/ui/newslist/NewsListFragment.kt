@@ -13,6 +13,7 @@ import com.android.example.toynewsapplication.data.local.database.AppDatabase
 import com.android.example.toynewsapplication.data.remote.ApiService
 import com.android.example.toynewsapplication.data.repository.NewsRepository
 import com.android.example.toynewsapplication.databinding.FragmentNewsListBinding
+import com.android.example.toynewsapplication.util.ApiState
 
 class NewsListFragment : Fragment() {
 
@@ -33,9 +34,9 @@ class NewsListFragment : Fragment() {
         val binding = FragmentNewsListBinding.inflate(inflater, container, false)
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is NewsApiState.Loading -> showLoadingIndicator(binding)
-                is NewsApiState.Success -> showNewsList(binding)
-                is NewsApiState.Failure -> showErrorText(binding)
+                is ApiState.Loading -> showLoadingIndicator(binding)
+                is ApiState.Success -> showNewsList(binding)
+                is ApiState.Failure -> showErrorText(binding)
             }
         }
 
