@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.android.example.toynewsapplication.data.local.database.AppDatabase
+import com.android.example.toynewsapplication.data.remote.ApiService
+import com.android.example.toynewsapplication.data.repository.GptRepository
 import com.android.example.toynewsapplication.databinding.FragmentNewsDetailBinding
 import com.bumptech.glide.Glide
 
@@ -15,7 +18,15 @@ class NewsDetailFragment: Fragment() {
 
     private val args: NewsDetailFragmentArgs by navArgs()
     private val viewModel: NewsDetailViewModel by lazy {
-        val viewModelFactory = NewsDetailViewModelFactory(args.news)
+        val appDatabase = AppDatabase.getInstance(requireContext())
+        val viewModelFactory = NewsDetailViewModelFactory(
+            GptRepository(
+                ApiService.gptApiService,
+                appDatabase.gptDao(),
+                appDatabase.newsDao()
+            ),
+            args.news
+        )
         ViewModelProvider(this, viewModelFactory)[NewsDetailViewModel::class.java]
     }
 
@@ -38,6 +49,10 @@ class NewsDetailFragment: Fragment() {
                     .error(android.R.drawable.stat_notify_error)
                     .into(newsImage)
             }
+        }
+
+        viewModel.context?.observe(viewLifecycleOwner) {
+            binding.newsContext.text = it
         }
         return binding.root
     }
