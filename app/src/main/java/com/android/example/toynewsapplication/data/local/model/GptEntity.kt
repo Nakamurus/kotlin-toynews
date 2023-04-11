@@ -1,5 +1,8 @@
 package com.android.example.toynewsapplication.data.local.model
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -10,14 +13,19 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = NewsEntity::class,
             parentColumns = ["id"],
-            childColumns = ["newsId"],
+            childColumns = ["news_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class GptEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val newsId: Int,
+    @PrimaryKey(autoGenerate = false)
+    val news_id: Int,
     val context: String,
 )
+
+fun LiveData<GptEntity>.extractContext(): LiveData<String> {
+    return Transformations.map(this) {
+        it.context
+    }
+}
