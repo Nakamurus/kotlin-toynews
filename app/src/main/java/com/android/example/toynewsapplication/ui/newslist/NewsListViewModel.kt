@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.example.toynewsapplication.data.domain.News
+import com.android.example.toynewsapplication.data.local.model.asDomainModel
 import com.android.example.toynewsapplication.data.repository.NewsRepository
 import com.android.example.toynewsapplication.util.ApiState
+import com.android.example.toynewsapplication.util.exceptions.HttpExceptionError
 import com.github.michaelbull.result.onFailure
 import com.github.michaelbull.result.onSuccess
 import kotlinx.coroutines.launch
@@ -33,7 +35,9 @@ class NewsListViewModel(
         _navigateToSelectedNews.value = null
     }
 
-    val news: LiveData<List<News>> = newsRepository.topHeadlines
+    private val _news = MutableLiveData<List<News>>()
+    val news: LiveData<List<News>>
+        get() = _news
 
     init {
         refreshDataFromRepository("us")
@@ -44,15 +48,17 @@ class NewsListViewModel(
         Log.d("NewsListViewModel", "Loading...")
         Log.d("NewsListViewModel", "${state.value}")
 
-        newsRepository.getTopHeadlines(country)
+        newsRepository.fetchAndSaveTopHeadlines(country)
             .onSuccess {
                 Log.d("NewsListViewModel", "Success! $it")
                 _state.value = ApiState.Success
+
+                _news.value = it
                 Log.d("NewsListViewModel", "${state.value}")
             }
             .onFailure {
                 Log.d("NewsListViewModel", "Failure! $it")
-                _state.value = ApiState.Failure(it)
+                _state.value = ApiState.Failure(it as HttpExceptionError)
             }
     }
 }
